@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState, useRef } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -18,62 +18,92 @@ const LoadingSpinner = () => (
   </div>
 );
 
-// Page Components with dynamic height
 const LaunchesPage = () => {
   const [height, setHeight] = useState(1000);
+  const lastSetHeightRef = useRef(1000);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      // Only process messages from our MFEs
-      if (
-        event.data.type === 'iframe-height' && 
-        event.data.source === 'launches' &&
-        event.data.height
-      ) {
-        setHeight(event.data.height + 50);
+      if (event.data.source === "launches") {
+        if (
+          event.data.type === "iframe-height" &&
+          typeof event.data.height === "number"
+        ) {
+          const contentHeight = event.data.height;
+          const newHeight = contentHeight + 100;
+
+          if (newHeight !== lastSetHeightRef.current) {
+            lastSetHeightRef.current = newHeight;
+            setHeight(newHeight);
+          }
+        }
+
+        if (event.data.type === "scroll-to-top") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
     <iframe
-      src="http://localhost:5002"
+      src={import.meta.env.VITE_LAUNCHES_MFE_URL}
       className="w-full border-0"
-      style={{ height: `${height * 1.4}px`, display: 'block' }}
+      style={{
+        minHeight: "2000px",
+        height: `${height}px`,
+        display: "block",
+      }}
       title="SpaceX Launches"
-      sandbox="allow-scripts allow-same-origin allow-forms"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
     />
   );
 };
 
 const RocketsPage = () => {
   const [height, setHeight] = useState(1000);
+  const lastSetHeightRef = useRef(1000);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (
-        event.data.type === 'iframe-height' && 
-        event.data.source === 'rockets' &&
-        event.data.height
-      ) {
-        setHeight(event.data.height + 50);
+      if (event.data.source === "rockets") {
+        if (
+          event.data.type === "iframe-height" &&
+          typeof event.data.height === "number"
+        ) {
+          const contentHeight = event.data.height;
+          const newHeight = contentHeight + 100;
+
+          if (newHeight !== lastSetHeightRef.current) {
+            lastSetHeightRef.current = newHeight;
+            setHeight(newHeight);
+          }
+        }
+
+        if (event.data.type === "scroll-to-top") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
     <iframe
-      src="http://localhost:5003"
+      src={import.meta.env.VITE_ROCKETS_MFE_URL}
       className="w-full border-0"
-      style={{ height: `${height}px`, display: 'block' }}
+      style={{
+        minHeight: "1000px",
+        height: `${height}px`,
+        display: "block",
+      }}
       title="SpaceX Rockets"
-      sandbox="allow-scripts allow-same-origin allow-forms"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
     />
   );
 };
@@ -109,7 +139,7 @@ function App() {
           <Header />
         </Suspense>
 
-        <main>
+        <main className="p-6">
           <Routes>
             <Route path="/" element={<LaunchesPage />} />
             <Route path="/rockets" element={<RocketsPage />} />

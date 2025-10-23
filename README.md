@@ -2,32 +2,6 @@
 
 A modern micro-frontend architecture built with Vite, React, TypeScript, Redux Toolkit, GraphQL, and Tailwind CSS.
 
-## 🚀 Technologies Used
-
-### Core Technologies
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite 5** - Build tool and dev server
-- **Module Federation** - Micro-frontend architecture (@originjs/vite-plugin-federation)
-
-### State Management
-- **Redux Toolkit** - Global state management (user preferences)
-- **React Context API** - Local state management (filters, views, navigation)
-
-### Data Fetching
-- **Apollo Client** - GraphQL client
-- **SpaceX GraphQL API** - Public API for launches and rockets data
-
-### Styling
-- **Tailwind CSS** - Utility-first CSS framework
-- **PostCSS** - CSS processing
-- **Autoprefixer** - CSS vendor prefixing
-
-### Development Tools
-- **Concurrently** - Run multiple commands simultaneously
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
-
 ### Micro-Frontends
 1. **Host App** (Port 5000) - Main container that orchestrates all MFEs
 2. **Layout MFE** (Port 5001) - Provides Header and Footer components via Module Federation
@@ -296,13 +270,6 @@ No authentication required!
 
 ## 🛠️ Development Workflow
 
-### Daily Development
-
-Start all services once:
-```bash
-npm run start
-```
-
 ### Working on Host App
 
 Make changes to `host-app/src/**` - browser auto-reloads ✅
@@ -323,20 +290,3 @@ cd layout-mfe
 npm run build
 ```
 Browser will reload automatically ✅
-
-## 📊 Architecture Decisions
-
-### Why Iframe-Based for Data MFEs?
-
-1. **No React Version Conflicts** - Each MFE has isolated React instance
-2. **True Independence** - Can use different React versions
-3. **Simpler Debugging** - Each app has its own DevTools
-4. **Hot Reload Works** - Immediate feedback during development
-5. **Production-Ready** - Reliable and battle-tested approach
-
-### Why Module Federation for Layout?
-
-1. **Simple Components** - Header/Footer don't have complex dependencies
-2. **Shared Styling** - Consistent look across the app
-3. **No Apollo/GraphQL** - Avoids version conflict issues
-4. **Better Performance** - No iframe overhead for simple components

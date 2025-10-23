@@ -3,21 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts":{
-   "dev": "vite",
-   "build": "tsc & vite build",
-   "preview": "vite preview"
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc & vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@reduxjs/toolkit": "^2.9.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-redux": "^9.2.0",
     "@apollo/client": "^3.8.8",
-    "graphql": "^16.8.1"
+    "@reduxjs/toolkit": "^2.9.1",
+    "graphql": "^16.8.1",
+    "lucide-react": "^0.546.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@originjs/vite-plugin-federation": "^1.4.1",
