@@ -1,0 +1,18 @@
+{
+  "name": "space-microfrontends-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Space Micro-Frontend Architecture Root Project",
+  "scripts": {
+    "build:layout": "npm run build --prefix layout-mfe",
+    "dev:launches": "npm run dev --prefix launches-mfe",
+    "dev:rockets": "npm run dev --prefix rockets-mfe",
+    "preview:layout": "npm run preview --prefix layout-mfe",
+    "dev:host": "npm run dev --prefix host-app",
+    "dev": "concurrently -n \"layout,launches,rockets,host\" -c \"bgGreen.bold,bgBlue.bold,bgMagenta.bold,bgCyan.bold\" \"npm run preview:layout\" \"npm run dev:launches\" \"npm run dev:rockets\" \"npm run dev:host\"",
+    "start": "npm run build:layout && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
